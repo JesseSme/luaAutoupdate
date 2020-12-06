@@ -6,6 +6,10 @@ local test = fs.open("test", "w")
 
 test.write(response)
 
-local content = test.readAll()
+test.close()
+
+local testRead = fs.open("test", "r")
+
+local content = testRead.readAll()
 
 print(content)
