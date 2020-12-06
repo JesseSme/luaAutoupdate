@@ -2,4 +2,10 @@ local programLink = "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/ma
 
 local response = http.get(programLink)
 
-print(response)
+local test = fs.open("test", "w")
+
+test.write(response)
+
+local content = test.readAll()
+
+print(content)
