@@ -7,8 +7,8 @@ git.programLinks = {
     ["inventory"]=    "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/invmanip.lua",
     ["app"]=          "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/app.lua",
     ["tunnel"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/tunnel.lua",
-    ["updater"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/updater.lua"
-    ["auth"]=         ""
+    ["updater"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/updater.lua",
+    ["auth"]=         "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/authenticate.lua"
 }
 
 function git.update()
