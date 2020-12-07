@@ -1,4 +1,4 @@
-local invmanip = {}
+local inv = {}
 
 local function getItems()
     local inventory = {}
@@ -14,17 +14,42 @@ local function getItems()
 end
 
 
-local function combineStacks()
+function inv.combineStacks()
+    local inventory = getItems()
 
+    for key, invValue in pairs(inventory) do
+        for key2, invValue2 in pairs(inventory) do
+            if invValue2.name == invValue.name then
+                turtle.select(key)
+                if (turtle.getItemCount() < 64) then
+                    turtle.select(key2)
+                    if (turtle.getItemCount() < 64) then
+                        turtle.transferTo(key)
+                    end
+                end
+            end
+        end
+    end
+    turtle.select(1)
 end
 
 
-local function refuel()
-
+function inv.refuel()
+    if turtle.getFuelLevel() < 10000 then
+        local inventory = getItems()
+        local coal = "minecraft:coal"
+        for key, invValue in pairs(inventory) do
+            if coal == invValue.name then
+                turtle.select(key)
+                turtle.refuel()
+            end
+        end
+        turtle.select(1)
+    end
 end
 
 
-function invmanip.dropItemUseless()
+function inv.dropItemUseless()
     local inventory = getItems()
     local uselessStuff = {
         "minecraft:cobblestone",
@@ -34,7 +59,16 @@ function invmanip.dropItemUseless()
         "quark:slate",
         "chisel:basalt2",
         "rustic:slate",
-        "minecraft:dirt"
+        "minecraft:dirt",
+        "quark:root_flower",
+        "projectred-core:resource_item",
+        "botania:mushroom",
+        "chisel:limestone2",
+        "chisel:marble2",
+        "minecraft:clay_ball",
+        "minecraft:torch",
+        "minecraft:gravel",
+        "thaumcraft:crystal_essence"
     }
 
     for i, value in ipairs(uselessStuff) do
@@ -48,8 +82,8 @@ function invmanip.dropItemUseless()
     turtle.select(1)
 end
 
-function invmanip.manageInventory()
+--function invmanip.manageInventory()
 
-end
+--end
 
-return invmanip
+return inv
