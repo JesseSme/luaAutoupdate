@@ -1,6 +1,6 @@
 --Links for RAW github codes.
 --turn program links to a table.
-git = {}
+local git = {}
 git.programLinks = {
     ["update"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/getgit.lua",
     ["digger"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/digger.lua",
