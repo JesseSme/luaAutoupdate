@@ -31,25 +31,28 @@ end
 local function authenticate()
     print("Username: ")
     user = io.read()
-    print("Password: ")
-    pass = io.read()
     key = checkUser(user)
     if key == nil then
         print("User not found.")
         return 0
-    end
+    end¨
+
+    print("Password: ")
+    pass = io.read()
     if not checkPassword(pass, key) then
         print("Wrong password.")
-        return 1
+        return 0
     end
+    return 1
 end
 
 --Add proximity log out to this.
 local function serve()
     while loggedIn do
         if authenticate() then
-            print("Logged in!")
             term.setCursorPos(1, 1)
+            term.clear()
+            print("Logged in!")
             print("Serving programs...")
             loggedIn = false
         else
