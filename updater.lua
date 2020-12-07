@@ -3,53 +3,22 @@
 ]]--
 
 local git = require("update")
+local auth = require("auth")
 local programs = git.programLinks
 
 local auth = {["users"]={"Jesse"},
               ["passwords"]={"vaikeasalasana1234"}}
 local loggedIn = true
+local actions = {
+    ["terminate"]= function () do return end end,
+    ["modem_message"]= sendPrograms
+}
 
-
-local function checkUser(user)
-    for key, value in ipairs(auth["users"]) do
-        if value == user then
-            print(key)
-            return key
-        end
-    end
-    return nil
-end
-
-
-local function checkPassword(pass, key)
-    if auth["passwords"][key] == pass then
-        return 1
-    end
-    return 0
-end
-
-local function authenticate()
-    print("Username: ")
-    user = io.read()
-    key = checkUser(user)
-    if key == nil then
-        print("User not found.")
-        return 0
-    end
-
-    print("Password: ")
-    pass = io.read()
-    if checkPassword(pass, key) == 0 then
-        print("Wrong password.")
-        return 0
-    end
-    return 1
-end
 
 --Add proximity log out to this.
 local function serve()
     while loggedIn do
-        if authenticate() then
+        if auth.authenticate() then
             term.setCursorPos(1, 1)
             term.clear()
             print("Logged in!")
@@ -59,10 +28,17 @@ local function serve()
             do return end
         end
     end
+    local modem = peripheral.wrap("top")
     while true do
-        
+        local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
+        for action in actions do
+            if action == event then
+                actions[event](param1, param2, param3, param4, param5)
+            end
+        end
     end
 end
 
 
 serve()
+print("Exiting...")
