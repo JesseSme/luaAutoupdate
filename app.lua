@@ -1,3 +1,7 @@
+--[[
+    HIATUS
+]]--
+
 local inventory = require("inventory")
 local tunnel    = require("tunnel")
 local update    = require("update")
@@ -16,7 +20,7 @@ local function quit()
     end
 end
 
-if not update() then
+if not update.update() then
     for key, val in error do
         print(key, ": ", val)
     end
