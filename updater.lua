@@ -35,11 +35,11 @@ local function authenticate()
     if key == nil then
         print("User not found.")
         return 0
-    end¨
+    end
 
     print("Password: ")
     pass = io.read()
-    if not checkPassword(pass, key) then
+    if checkPassword(pass, key) == 0 then
         print("Wrong password.")
         return 0
     end
