@@ -2,7 +2,7 @@
     Serves programs from the main git computer
 ]]--
 
-local git = require("git")
+local git = require("update")
 local programs = git.programLinks
 
 local auth = {["users"]={"Jesse"},
