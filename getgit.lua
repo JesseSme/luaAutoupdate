@@ -1,16 +1,14 @@
-local programLink = "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/getgit.lua"
+--Links for RAW github codes.
+--turn program links to a table.
+local programLinks = {
+    "update": "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/getgit.lua",
+    "digger":
+}
 
+--Make a loop to create all the files
+for key, url in programLinks
 local response = http.get(programLink)
-
-local update = fs.open("update", "w")
-
---Must use readAll()!!!!!
-update.write(response.readAll())
-
-update.close()
-
-local testRead = fs.open("update", "r")
-
-local content = testRead.readAll()
-
-print(content)
+local file = fs.open("update", "w")
+file.write(response.readAll())
+file.close()
+--end loop here
