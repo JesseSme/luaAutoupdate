@@ -1,7 +1,9 @@
 local auth = {}
+local cred = {["users"]={"Jesse"},
+              ["passwords"]={"vaikeasalasana1234"}}
 
 local function checkUser(user)
-    for key, value in ipairs(auth["users"]) do
+    for key, value in ipairs(cred["users"]) do
         if value == user then
             print(key)
             return key
@@ -12,13 +14,13 @@ end
 
 
 local function checkPassword(pass, key)
-    if auth["passwords"][key] == pass then
+    if cred["passwords"][key] == pass then
         return 1
     end
     return 0
 end
 
-function auth.authenticate()
+function cred.credenticate()
     print("Username: ")
     user = io.read()
     key = checkUser(user)

@@ -6,8 +6,6 @@ local git = require("update")
 local auth = require("auth")
 local programs = git.programLinks
 
-local auth = {["users"]={"Jesse"},
-              ["passwords"]={"vaikeasalasana1234"}}
 local loggedIn = true
 local actions = {
     ["terminate"]= function () do return end end,
