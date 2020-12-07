@@ -12,7 +12,7 @@ git.programLinks = {
 
 function git.update()
     --Make a loop to create all the files
-    for key, url in ipairs(git.programLinks) do
+    for key, url in pairs(git.programLinks) do
         print(key)
         print(url)
         local response = http.get(url)
@@ -23,4 +23,4 @@ function git.update()
     --end loop here
 end
 
-return git
+git.update()
