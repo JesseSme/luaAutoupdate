@@ -13,6 +13,7 @@ local loggedIn = true
 local function checkUser(user)
     for key, value in ipairs(auth["users"]) do
         if value == user then
+            print(key)
             return key
         end
     end
@@ -28,7 +29,9 @@ local function checkPassword(pass, key)
 end
 
 local function authenticate()
+    print("Username: ")
     user = io.read()
+    print("Password: ")
     pass = io.read()
     key = checkUser(user)
     if key == nil then
