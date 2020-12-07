@@ -11,16 +11,18 @@ git.programLinks = {
 }
 
 function git.update()
-    --Make a loop to create all the files
     for key, url in pairs(git.programLinks) do
-        print(key)
-        print(url)
+        print("Updating: "..key)
         local response = http.get(url)
         local file = fs.open(key, "w")
         file.write(response.readAll())
         file.close()
+        print(key.." Done!")
     end
-    --end loop here
 end
 
-git.update()
+if shell.getRunningProgram() == "update" then
+    git.update()
+end
+
+return git

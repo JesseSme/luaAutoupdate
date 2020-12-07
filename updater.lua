@@ -7,8 +7,9 @@ local programs = git.programLinks
 
 local auth = {["Jesse"]="VaikeaSalasana1234"}
 
-local function serve()
-
+local function serve(user, pass)
+    if not user ==  then
+    end
 end
 
-serve()
+serve(arg[1], arg[2])
