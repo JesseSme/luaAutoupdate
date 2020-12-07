@@ -59,4 +59,4 @@ local function serve()
 end
 
 
-serve(arg[1], arg[2])
+serve()
