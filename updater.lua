@@ -33,48 +33,56 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         modem.transmit(out_freq, in_signal, "Try channel "..in_signal)
         return 0
     end
+    --Wtf is going on between this
+    --FIX: Always serialize msg before sending
     if not (msg == nil) then
         print(msg)
         os.sleep(1)
         local deserialized_msg = nil
-        if not (type(msg) == "table") then
-            deserialized_msg = {msg}
-        else
+        if type(msg) == "table" then
             deserialized_msg = textutils.unserialize(msg)
         end
-        print(unpack(deserialized_msg))
-        local return_msg = {}
-        if msg == "availableprograms" then
-            print("Gathering available programs...")
-            local counter = 1
-            for prog, url in pairs(programs) do
-                if prog == "auth" then
-                else
-                    return_msg[counter] = prog
-                    counter = counter + 1
+        print(deserialized_msg)
+    --and this
+        for key, prog in ipairs(deserialized_msg) do
+            if prog == "availableprograms" then
+                local return_msg = {}
+                print("Gathering available programs...")
+                local counter = 1
+                for prog, url in pairs(programs) do
+                    if prog == "auth" then
+                    else
+                        return_msg[counter] = prog
+                        counter = counter + 1
+                    end
                 end
-            end
-            return_msg = textutils.serialize(return_msg)
-            print("Transmitting to channel..")
-            modem.transmit(out_freq, 69, return_msg)
-        else
+                return_msg = textutils.serialize(return_msg)
+                print("Transmitting to channel..")
+                modem.transmit(out_freq, 69, return_msg)
+                return 1
 
-            for key, prog in ipairs(deserialized_msg) do
+            else
+                print("Getting specified programs...")
+                local content = {}
                 if prog == "auth" then
                 else
                     for ava_prog, _ in pairs(programs) do
                         if prog == ava_prog then
-                            local content = fs.readAll(fs.open(ava_prog))
-                            modem.transmit(out_freq, 69, content)
+                            content[ava_prog] = fs.readAll(fs.open(ava_prog))
                         end
                     end
                 end
+                print("Content gathered...")
+                content = textutils.serialize(content)
+                modem.transmit(out_freq, 69, content)
+                print("Content transmitten on"..out_freq)
             end
         end
     end
 end
 
-
+--Functions need to be declared over this.
+--Should probably make them their own file.
 actions = {
     ["terminate"]= function () do return end end,
     ["modem_message"]= sendPrograms
