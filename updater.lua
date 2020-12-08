@@ -111,6 +111,7 @@ local function serve()
     modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
     monitor = peripheral.wrap("right")
+    monitor.setTextScale(1)
     oldTerm = term.redirect(monitor)
     print("Serving programs...")
     while true do
