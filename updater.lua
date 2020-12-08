@@ -42,9 +42,8 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         if not (type(msg) == "string") then
             print("Bad request.")
             return 0
-        else
-            deserialized_msg = textutils.unserialize(msg)
         end
+        deserialized_msg = textutils.unserialize(msg)
         for key, value in deserialized_msg do
             print(tostring(key)..": "..tostring(value))
         end
