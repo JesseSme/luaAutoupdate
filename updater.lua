@@ -8,8 +8,6 @@ local programs = git.programLinks
 
 local loggedIn = true
 
-
-
 --Modem variables.
 local in_signal = 69
 local out_signal = 70
@@ -40,7 +38,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         if msg == "availableprograms" then
             print("Gathering available programs...")
             local counter = 1
-            for prog, url in programs do
+            for prog, url in pairs(programs) do
                 if prog == "auth" then
                 else
                     return_msg[counter] = prog
@@ -61,7 +59,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
             for key, prog in ipairs(deserialized_msg) do
                 if prog == "auth" then
                 else
-                    for ava_prog, _ in programs do
+                    for ava_prog, _ in pairs(programs) do
                         if prog == ava_prog then
                             local content = fs.readAll(fs.open(ava_prog))
                             modem.transmit(out_freq, 69, content)
