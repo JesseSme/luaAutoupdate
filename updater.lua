@@ -10,9 +10,12 @@ local loggedIn = true
 local actions = {
     ["terminate"]= function () do return end end,
     ["modem_message"]= sendPrograms
+    ["update"]
 }
+--Modem variables.
 local in_signal = 69
 local out_signal = 70
+local modem_side = "top"
 
 
 local function cipherer(mode, text)
@@ -57,7 +60,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
                     for ava_prog, _ in programs do
                         if prog == ava_prog then
                             local content = fs.readAll(fs.open(ava_prog))
-                            --Add return message here!!!!!
+                            modem.transmit(out_freq, 69, content)
                         end
                     end
                 end
@@ -80,7 +83,7 @@ local function serve()
             do return end
         end
     end
-    local modem = peripheral.wrap("top")
+    local modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
     while true do
         local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
