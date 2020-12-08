@@ -1,6 +1,6 @@
 local auth = {}
 local cred = {["users"]={"Jesse"},
-              ["passwords"]={"vaikeasalasana1234"}}
+              ["passwords"]={"gigamind420"}}
 
 local function checkUser(user)
     for key, value in ipairs(cred["users"]) do
