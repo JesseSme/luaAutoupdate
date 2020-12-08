@@ -89,7 +89,8 @@ local function serve()
         local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
         print(event)
         for action, _ in pairs(actions) do
-            if action == event then
+            print(action)
+            if action == tostring(event) then
                 print(action)
                 actions[event](param1, param2, param3, param4, param5)
             end
