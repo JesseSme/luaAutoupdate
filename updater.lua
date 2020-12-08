@@ -28,7 +28,7 @@ end
 
 local function sendPrograms(side, in_freq, out_freq, msg, dist)
     if not (in_freq == in_signal) then
-        modem.transmit(out_freq, 69, "Try channel "..in_signal)
+        modem.transmit(out_freq, in_signal, "Try channel "..in_signal)
         return 0
     end
     if not (msg == nil) then
@@ -68,11 +68,10 @@ end
 --Add proximity log out to this.
 local function serve()
     while loggedIn do
-        if auth.authenticate() then
+        if auth.credenticate() then
             term.setCursorPos(1, 1)
             term.clear()
             print("Logged in!")
-            print("Serving programs...")
             loggedIn = false
         else
             do return end
@@ -80,6 +79,7 @@ local function serve()
     end
     local modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
+    print("Serving programs...")
     while true do
         local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
         for action in actions do
