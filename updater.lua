@@ -72,12 +72,12 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
                     end
                 end
             end
-            print("Content gathered...")
-            return_msg = textutils.serialize(return_msg)
-            modem.transmit(out_freq, 69, return_msg)
-            print("Content transmitten on "..out_freq)
-            return 1
         end
+        print("Content gathered...")
+        return_msg = textutils.serialize(return_msg)
+        modem.transmit(out_freq, 69, return_msg)
+        print("Content transmitten on "..out_freq)
+        return 1
     end
 end
 
@@ -91,7 +91,7 @@ actions = {
 --Add proximity log out to this.
 local function serve()
     while loggedIn do
-        if auth.credenticate() then
+        if auth.credenticate() == 1 then
             term.setCursorPos(1, 1)
             term.clear()
             print("Logged in!")
