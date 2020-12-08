@@ -34,6 +34,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         return 0
     end
     if not (msg == nil) then
+        print(msg)
         os.sleep(1)
         local deserialized_msg = nil
         if not (type(msg) == "table") then
@@ -41,7 +42,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         else
             deserialized_msg = textutils.unserialize(msg)
         end
-
+        print(deserialized_msg)
         local return_msg = {}
         if msg == "availableprograms" then
             print("Gathering available programs...")
@@ -95,8 +96,7 @@ local function serve()
     modem.open(in_signal)
     print("Serving programs...")
     while true do
-        local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
-        print(event)
+        local event, param1, param2, param3, param4, param5 = os.pullEvent()
         for action, _ in pairs(actions) do
             if action == event then
                 print(action)
