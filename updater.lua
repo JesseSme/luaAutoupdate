@@ -42,7 +42,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         else
             deserialized_msg = textutils.unserialize(msg)
         end
-        print(deserialized_msg)
+        print(unpack(deserialized_msg))
         local return_msg = {}
         if msg == "availableprograms" then
             print("Gathering available programs...")
