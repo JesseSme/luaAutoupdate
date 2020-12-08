@@ -5,7 +5,6 @@ local cred = {["users"]={"Jesse"},
 local function checkUser(user)
     for key, value in ipairs(cred["users"]) do
         if value == user then
-            print(key)
             return key
         end
     end
@@ -14,7 +13,6 @@ end
 
 
 local function checkPassword(pass, key)
-    print(pass..": "..cred["passwords"][key])
     if cred["passwords"][key] == pass then
         return 1
     end
