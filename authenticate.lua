@@ -20,7 +20,7 @@ local function checkPassword(pass, key)
     return 0
 end
 
-function cred.credenticate()
+function auth.credenticate()
     print("Username: ")
     user = io.read()
     key = checkUser(user)
