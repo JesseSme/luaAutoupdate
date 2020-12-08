@@ -14,6 +14,7 @@ end
 
 
 local function checkPassword(pass, key)
+    print(pass..": "..cred["passwords"][key])
     if cred["passwords"][key] == pass then
         return 1
     end
