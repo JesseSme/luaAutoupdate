@@ -113,6 +113,7 @@ local function serve()
     monitor = peripheral.wrap("right")
     monitor.setTextScale(1)
     oldTerm = term.redirect(monitor)
+    term.clear()
     print("Serving programs...")
     while true do
         local event, param1, param2, param3, param4, param5 = os.pullEvent()
