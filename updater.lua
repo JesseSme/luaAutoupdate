@@ -35,7 +35,13 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
     end
     if not (msg == nil) then
         os.sleep(1)
-        local wanted_programs = textutils.unserialize(msg)
+        local deserialized_msg = nil
+        if not (type(msg) == "table") then
+            deserialized_msg = {msg}
+        else
+            deserialized_msg = textutils.unserialize(msg)
+        end
+
         local return_msg = {}
         if msg == "availableprograms" then
             print("Gathering available programs...")
@@ -51,12 +57,6 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
             print("Transmitting to channel..")
             modem.transmit(out_freq, 69, return_msg)
         else
-            local deserialized_msg = nil
-            if not (type(msg) == "table") then
-                deserialized_msg = {msg}
-            else
-                deserialized_msg = textutils.unserialize(msg)
-            end
 
             for key, prog in ipairs(deserialized_msg) do
                 if prog == "auth" then
