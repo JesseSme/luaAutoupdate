@@ -8,10 +8,7 @@ local programs = git.programLinks
 
 local loggedIn = true
 
-actions = {
-    ["terminate"]= function () do return end end,
-    ["modem_message"]= sendPrograms
-}
+
 
 --Modem variables.
 local in_signal = 69
@@ -70,6 +67,11 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
 end
 
 
+actions = {
+    ["terminate"]= function () do return end end,
+    ["modem_message"]= sendPrograms
+}
+
 --Add proximity log out to this.
 local function serve()
     while loggedIn do
@@ -90,7 +92,8 @@ local function serve()
         print(event)
         for action, _ in pairs(actions) do
             print(action)
-            if action == tostring(event) then
+            print(event)
+            if action == event then
                 print(action)
                 actions[event](param1, param2, param3, param4, param5)
             end
