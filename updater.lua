@@ -36,6 +36,7 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
     --Wtf is going on between this
     --FIX: Always serialize msg before sending
     if not (msg == nil) then
+        local return_msg = {}
         print(type(msg))
         os.sleep(1)
         local deserialized_msg = nil
@@ -44,13 +45,13 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
             return 0
         end
         deserialized_msg = textutils.unserialize(msg)
-        for key, value in deserialized_msg do
+        for key, value in pairs(deserialized_msg) do
             print(tostring(key)..": "..tostring(value))
         end
     --and this
         for key, prog in ipairs(deserialized_msg) do
             if prog == "availableprograms" then
-                local return_msg = {}
+                return_msg = {}
                 print("Gathering available programs...")
                 local counter = 1
                 for prog, url in pairs(programs) do
@@ -60,27 +61,22 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
                         counter = counter + 1
                     end
                 end
-                return_msg = textutils.serialize(return_msg)
-                print("Transmitting to channel..")
-                modem.transmit(out_freq, 69, return_msg)
-                return 1
-
             else
                 print("Getting specified programs...")
-                local content = {}
                 if prog == "auth" then
                 else
                     for ava_prog, _ in pairs(programs) do
                         if prog == ava_prog then
-                            content[ava_prog] = fs.readAll(fs.open(ava_prog))
+                            return_msg[ava_prog] = fs.readAll(fs.open(ava_prog))
                         end
                     end
                 end
-                print("Content gathered...")
-                content = textutils.serialize(content)
-                modem.transmit(out_freq, 69, content)
-                print("Content transmitten on"..out_freq)
             end
+            print("Content gathered...")
+            return_msg = textutils.serialize(return_msg)
+            modem.transmit(out_freq, 69, return_msg)
+            print("Content transmitten on "..out_freq)
+            return 1
         end
     end
 end
