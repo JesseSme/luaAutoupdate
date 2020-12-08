@@ -36,14 +36,18 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
     --Wtf is going on between this
     --FIX: Always serialize msg before sending
     if not (msg == nil) then
-        print(msg)
+        print(type(msg))
         os.sleep(1)
         local deserialized_msg = nil
-        if not (type(msg) == "table") then
+        if not (type(msg) == "string") then
             print("Bad request.")
             return 0
+        else
+            deserialized_msg = textutils.unserialize(msg)
         end
-        print(deserialized_msg)
+        for key, value in deserialized_msg do
+            print(tostring(key)..": "..tostring(value))
+        end
     --and this
         for key, prog in ipairs(deserialized_msg) do
             if prog == "availableprograms" then
@@ -110,6 +114,7 @@ local function serve()
             if action == event then
                 print(action)
                 actions[event](param1, param2, param3, param4, param5)
+                print("Serving programs...")
             end
         end
     end
