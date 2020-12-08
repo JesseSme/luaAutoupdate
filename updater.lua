@@ -33,11 +33,9 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         modem.transmit(out_freq, in_signal, "Try channel "..in_signal)
         return 0
     end
-    --Wtf is going on between this
-    --FIX: Always serialize msg before sending
+    --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
-        print(type(msg))
         os.sleep(1)
         local deserialized_msg = nil
         if not (type(msg) == "string") then
