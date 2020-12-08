@@ -13,6 +13,8 @@ local in_signal = 69
 local modem_side = "top"
 
 modem = nil
+monitor = nil
+oldTerm = nil
 
 local function cipherer(mode, text)
     if mode == "encrypt" then
@@ -108,6 +110,8 @@ local function serve()
     end
     modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
+    monitor = peripheral.wrap("right")
+    oldTerm = term.redirect(monitor)
     print("Serving programs...")
     while true do
         local event, param1, param2, param3, param4, param5 = os.pullEvent()
@@ -129,6 +133,8 @@ term.clear()
 term.setCursorPos(1, 1)
 print("Initializing...")
 serve()
+term.clear()
+term.redirect(oldTerm)
 print("Press any key to exit...")
 local event, key = os.pullEvent("key")
 term.clear()
