@@ -10,7 +10,6 @@ local loggedIn = true
 local actions = {
     ["terminate"]= function () do return end end,
     ["modem_message"]= sendPrograms
-    ["update"]
 }
 --Modem variables.
 local in_signal = 69
