@@ -39,8 +39,10 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         print(msg)
         os.sleep(1)
         local deserialized_msg = nil
-        if type(msg) == "table" then
+        if not (type(msg) == "table") then
             deserialized_msg = textutils.unserialize(msg)
+        else
+            deserialized_msg = unpack(msg)
         end
         print(deserialized_msg)
     --and this
