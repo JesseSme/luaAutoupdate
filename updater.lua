@@ -40,9 +40,8 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         os.sleep(1)
         local deserialized_msg = nil
         if not (type(msg) == "table") then
-            deserialized_msg = textutils.unserialize(msg)
-        else
-            deserialized_msg = unpack(msg)
+            print("Bad request.")
+            return 0
         end
         print(deserialized_msg)
     --and this
