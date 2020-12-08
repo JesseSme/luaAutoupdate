@@ -7,15 +7,11 @@ local auth = require("auth")
 local programs = git.programLinks
 
 local loggedIn = true
-local actions = {
-    ["terminate"]= function () do return end end,
-    ["modem_message"]= sendPrograms
-}
+
 --Modem variables.
 local in_signal = 69
 local out_signal = 70
 local modem_side = "top"
-
 
 local function cipherer(mode, text)
     if mode == "encrypt" then
@@ -93,6 +89,13 @@ local function serve()
         end
     end
 end
+
+--
+local actions = {
+    ["terminate"]= function () do return end end,
+    ["modem_message"]= sendPrograms
+}
+
 
 term.clear()
 term.setCursorPos(1, 1)
