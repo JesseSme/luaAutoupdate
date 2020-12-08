@@ -34,13 +34,14 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
         return 0
     end
     if not (msg == nil) then
+        os.sleep(1)
         local wanted_programs = textutils.unserialize(msg)
         local return_msg = {}
-        if programs == "availableprograms" then
+        if msg == "availableprograms" then
             print("Gathering available programs...")
             local counter = 1
             for prog, url in programs do
-                if prog == "auth" then 
+                if prog == "auth" then
                 else
                     return_msg[counter] = prog
                     counter = counter + 1
@@ -50,7 +51,13 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
             print("Transmitting to channel..")
             modem.transmit(out_freq, 69, return_msg)
         else
-            local deserialized_msg = textutils.unserialize(msg)
+            local deserialized_msg = nil
+            if not (type(msg) == "table") then
+                deserialized_msg = {msg}
+            else
+                deserialized_msg = textutils.unserialize(msg)
+            end
+
             for key, prog in ipairs(deserialized_msg) do
                 if prog == "auth" then
                 else
@@ -91,8 +98,6 @@ local function serve()
         local event, param1, param2, param3, param4, param5 = os.pullEventRaw()
         print(event)
         for action, _ in pairs(actions) do
-            print(action)
-            print(event)
             if action == event then
                 print(action)
                 actions[event](param1, param2, param3, param4, param5)
