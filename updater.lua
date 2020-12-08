@@ -13,6 +13,8 @@ local in_signal = 69
 local out_signal = 70
 local modem_side = "top"
 
+modem = nil
+
 local function cipherer(mode, text)
     if mode == "encrypt" then
         return peripheral.call("cipher_0", mode, text)
@@ -89,7 +91,7 @@ local function serve()
             do return end
         end
     end
-    local modem = peripheral.wrap(modem_side)
+    modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
     print("Serving programs...")
     while true do
