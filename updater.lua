@@ -71,7 +71,8 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
                     else
                         for ava_prog, _ in pairs(programs) do
                             if prog == ava_prog then
-                                return_msg[ava_prog] = fs.readAll(fs.open(ava_prog))
+                                local file = fs.open(ava_prog, "r")
+                                return_msg[ava_prog] = file.readAll()
                             end
                         end
                     end
