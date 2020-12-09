@@ -21,6 +21,10 @@ function git.update()
         print(key.." Done!")
     end
     if shell.getRunningProgram() == "updater" then
+        for i=5, 1, -1 do
+        print("Updater will rerun in... "..i)
+        os.sleep(1)
+        end
         shell.run("updater", "Jesse", "gigamind420")
     end
 end
