@@ -93,13 +93,14 @@ end --function
 --Should probably make them their own file.
 actions = {
     ["terminate"]= function() return nil end,
-    ["modem_message"]= sendPrograms
+    ["modem_message"]= sendPrograms,
+    ["timer"]= git.update()
 }
 
 --Add proximity log out to this.
-local function serve()
+local function serve(user, pass)
     while loggedIn do
-        if auth.credenticate() == 1 then
+        if auth.credenticate(user, pass) == 1 then
             term.setCursorPos(1, 1)
             term.clear()
             print("Logged in!")
@@ -114,6 +115,7 @@ local function serve()
     monitor.setTextScale(0.5)
     oldTerm = term.redirect(monitor)
     term.clear()
+    term.setCursorPos(1,1)
     print("Serving programs...")
     while true do
         local event, param1, param2, param3, param4, param5 = os.pullEvent()
@@ -134,7 +136,7 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 print("Initializing...")
-serve()
+serve(arg[1], arg[2])
 term.clear()
 term.redirect(oldTerm)
 print("Press any key to exit...")
