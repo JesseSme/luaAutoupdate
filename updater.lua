@@ -96,7 +96,6 @@ actions = {
     ["modem_message"]= sendPrograms,
     ["timer"]= function()
                 git.update()
-                os.startTimer(360)
     end
 }
 
