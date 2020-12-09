@@ -19,21 +19,28 @@ local function checkPassword(pass, key)
     return 0
 end
 
-function auth.credenticate()
-    print("Username: ")
-    user = io.read()
+function auth.credenticate(user, pass)
+    if user == nil then
+        print("Username: ")
+        user = io.read()
+    end
+    
     key = checkUser(user)
     if key == nil then
         print("User not found.")
         return 0
     end
 
-    print("Password: ")
-    pass = io.read()
+    if pass == nil then
+        print("Password: ")
+        pass = io.read()
+    end
+
     if checkPassword(pass, key) == 0 then
         print("Wrong password.")
         return 0
     end
+
     return 1
 end
 
