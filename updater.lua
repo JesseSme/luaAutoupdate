@@ -112,6 +112,7 @@ local function serve(user, pass)
             return 0
         end
     end
+    os.startTimer(1)
     modem = peripheral.wrap(modem_side)
     modem.open(in_signal)
     monitor = peripheral.wrap("right")
