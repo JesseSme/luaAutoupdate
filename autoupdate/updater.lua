@@ -3,33 +3,26 @@
 ]]--
 
 local git = require("update")
+local cipherer = require("cipherer")
 local auth = require("auth")
 local programs = git.programLinks
 
 local loggedIn = true
 
 --Modem variables.
-local in_signal = 69
+local sendPrograms_channel = 69
+local checkVersion_channel = 1
 local modem_side = "top"
 
 modem = nil
 monitor = nil
 oldTerm = nil
 
-local function cipherer(mode, text)
-    if mode == "encrypt" then
-        return peripheral.call("cipher_0", mode, text)
-    else if mode == "decrypt" then
-        return peripheral.call("cipher_0", mode, text)
-    else
-        print("No valid mode for cipher set.")
-    end
-    return nil
-    end
+local function checkVersion()
+    
 end
 
-
-local function processIncomingMsg(msg)
+local function deserializeMessage(msg)
     local deserialized_msg = nil
     if not (type(msg) == "string") then
         print("Bad request.")
@@ -43,11 +36,8 @@ local function processIncomingMsg(msg)
 end
 
 
-local function sendPrograms(side, in_freq, out_freq, msg, dist)
-    if not (in_freq == in_signal) then
-        modem.transmit(out_freq, in_signal, "Try channel "..in_signal)
-        return 0
-    end
+local function sendPrograms(out_channel, msg)
+
     --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
@@ -82,23 +72,38 @@ local function sendPrograms(side, in_freq, out_freq, msg, dist)
             end -- ipairs(processedMsg)
             print("Content gathered...")
             return_msg = textutils.serialize(return_msg)
-            modem.transmit(out_freq, 69, return_msg)
-            print("Content transmitten on "..out_freq)
+            modem.transmit(out_channel, 69, return_msg)
+            print("Content transmitten on "..out_channel)
             return 1
         end -- not processedMsg
     end --msg not nil
 end --function
 
+
+local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
+
+    local processedMsg = deserializeMessage(msg)
+    if processedMsg == 0 then
+        return 0
+    end
+
+    if in_channel == sendPrograms_channel then
+        sendPrograms(out_channel, msg)
+    end
+end
+
+
 --Functions need to be declared over this.
 --Should probably make them their own file.
 actions = {
     ["terminate"]= function() return nil end,
-    ["modem_message"]= sendPrograms,
+    ["modem_message"]= processIncomingMsg,
     ["timer"]= function()
                 git.update()
     end
 }
 
+--The main loop of the program.
 --Add proximity log out to this.
 local function serve(user, pass)
     while loggedIn do
@@ -113,7 +118,8 @@ local function serve(user, pass)
     end
     os.startTimer(360)
     modem = peripheral.wrap(modem_side)
-    modem.open(in_signal)
+    modem.open(sendPrograms_channel)
+    modem.open(checkVersion_channel)
     monitor = peripheral.wrap("right")
     monitor.setTextScale(0.5)
     oldTerm = term.redirect(monitor)
