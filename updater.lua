@@ -94,7 +94,10 @@ end --function
 actions = {
     ["terminate"]= function() return nil end,
     ["modem_message"]= sendPrograms,
-    ["timer"]= git.update()
+    ["timer"]= function()
+                git.update()
+                os.startTimer(360)
+    end
 }
 
 --Add proximity log out to this.
