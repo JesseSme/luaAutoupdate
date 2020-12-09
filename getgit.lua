@@ -21,7 +21,7 @@ function git.update()
         print(key.." Done!")
     end
     if shell.getRunningProgram() == "updater" then
-        os.run({}, "updater", "Jesse", "gigamind420")
+        shell.run("updater", "Jesse", "gigamind420")
     end
 end
 
