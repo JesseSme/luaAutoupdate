@@ -90,13 +90,13 @@ end --function
 
 local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
 
-    local processedMsg = {deserializeMessage(msg)}
+    local processedMsg = deserializeMessage(msg)
     if processedMsg == 0 then
         return 0
     end
 
     if in_channel == sendPrograms_channel then
-        sendPrograms(out_channel, msg)
+        sendPrograms(out_channel, processedMsg)
         return "sent"
     end
 end
