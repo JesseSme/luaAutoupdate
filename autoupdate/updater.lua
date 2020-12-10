@@ -99,6 +99,13 @@ local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
         sendPrograms(out_channel, processedMsg)
         return "sent"
     end
+
+    if in_channel == checkVersion_channel then
+        modem.transmit(out_channel, checkVersion_channel, "ok")
+        local content = 
+        local file = mode
+        checkVersion()
+    end
 end
 
 
