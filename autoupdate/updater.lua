@@ -1,6 +1,7 @@
 --[[
     Serves programs from the main git computer
 ]]--
+local self = {}
 
 local git = require("update")
 local cipherer = require("cipherer")
@@ -18,8 +19,15 @@ modem = nil
 monitor = nil
 oldTerm = nil
 
-local function checkVersion()
-    
+local function checkVersion(program_name, program)
+    local e_program = cipherer.cipher("encrypt", program)
+    local file = fs.open(program_name, "r")
+    local content = file.readAll()
+    local e_version = cipherer.cipher("encrypt", content)
+    if e_version == e_program then
+        return true
+    end
+    return false
 end
 
 local function deserializeMessage(msg)
@@ -41,7 +49,7 @@ local function sendPrograms(out_channel, msg)
     --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
-        local processedMsg = processIncomingMsg(msg)
+        local processedMsg = deserializeMessage(msg)
         if processedMsg == 0 then
             return 0
         else
@@ -82,13 +90,14 @@ end --function
 
 local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
 
-    local processedMsg = deserializeMessage(msg)
+    local processedMsg = {deserializeMessage(msg)}
     if processedMsg == 0 then
         return 0
     end
 
     if in_channel == sendPrograms_channel then
         sendPrograms(out_channel, msg)
+        return "sent"
     end
 end
 
