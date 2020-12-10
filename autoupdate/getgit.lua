@@ -2,13 +2,16 @@
 --turn program links to a table.
 local git = {}
 git.programLinks = {
-    ["update"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/getgit.lua",
     ["digger"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/digger.lua",
     ["inventory"]=    "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/invmanip.lua",
     ["app"]=          "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/app.lua",
     ["tunnel"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/tunnel.lua",
+    ["update"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/getgit.lua",
     ["updater"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/updater.lua",
-    ["auth"]=         "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/authenticate.lua"
+    ["auth"]=         "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/authenticate.lua",
+    ["cipherer"]=     "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/cipherer.lua",
+    ["locator"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/bigbro/locator.lua",
+    ["spyturtle"]=    "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/bigbro/spyturtle.lua"
 }
 
 function git.update()
