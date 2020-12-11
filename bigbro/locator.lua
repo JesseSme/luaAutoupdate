@@ -2,7 +2,6 @@ local serial = require("serial")
 
 modem = nil
 
-
 -- REDO
 function updateLocator()
 
