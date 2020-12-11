@@ -13,9 +13,6 @@ function serial.deserializeMessage(msg)
         return 0
     end
     deserialized_msg = textutils.unserialize(msg)
-    for key, value in pairs(deserialized_msg) do
-        print(tostring(key)..": "..tostring(value))
-    end
     return deserialized_msg
 end
 
