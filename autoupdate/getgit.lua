@@ -1,17 +1,19 @@
 --Links for RAW github codes.
 --turn program links to a table.
 local git = {}
+local url = "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/"
 git.programLinks = {
-    ["digger"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/digger.lua",
-    ["inventory"]=    "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/invmanip.lua",
-    ["app"]=          "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/app.lua",
-    ["tunnel"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/tunnel.lua",
-    ["update"]=       "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/getgit.lua",
-    ["updater"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/updater.lua",
-    ["auth"]=         "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/authenticate.lua",
-    ["cipherer"]=     "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/autoupdate/cipherer.lua",
-    ["locator"]=      "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/bigbro/locator.lua",
-    ["spyturtle"]=    "https://raw.githubusercontent.com/JesseSme/luaAutoupdate/master/bigbro/spyturtle.lua"
+    ["digger"]=       url.."digger.lua",
+    ["inventory"]=    url.."invmanip.lua",
+    ["app"]=          url...."app.lua",
+    ["tunnel"]=       url.."tunnel.lua",
+    ["update"]=       url.."autoupdate/getgit.lua",
+    ["updater"]=      url.."autoupdate/updater.lua",
+    ["auth"]=         url.."autoupdate/authenticate.lua",
+    ["locator"]=      url.."bigbro/locator.lua",
+    ["spyturtle"]=    url.."bigbro/spyturtle.lua",
+    ["cipherer"]=     url.."tools/cipherer.lua",
+    ["serial"]=       url.."tools/serial.lua"
 }
 
 function git.update()
