@@ -3,44 +3,54 @@
 ]]--
 local self = {}
 
+--Used to check for correct parameters
+local expect = require("cc.expect")
+local expect = expect.expect
+
 local git = require("update")
 local cipherer = require("cipherer")
 local auth = require("auth")
+local serial = require("serial")
 local programs = git.programLinks
 
 local loggedIn = true
 
 --Modem variables.
 local sendPrograms_channel = 69
-local checkVersion_channel = 1
+local checkVersion_channel = 20
 local modem_side = "top"
 
 modem = nil
 monitor = nil
 oldTerm = nil
 
-local function checkVersion(program_name, program)
+
+local function checkVersion(out_channel, msg)
+    expect(1, out_channel, "number")
+    expect(2, msg, "table")
+
+    modem.open(out_channel)
+    local program = nil
+
+    if program == nil then
+        print("Version check failed. Program not assigned.")
+        return 0
+    end
+
+    modem.transmit(out_channel, checkVersion_channel, "ok")
+
+    repeat
+
     local e_program = cipherer.cipher("encrypt", program)
     local file = fs.open(program_name, "r")
     local content = file.readAll()
     local e_version = cipherer.cipher("encrypt", content)
-    if e_version == e_program then
-        return true
-    end
-    return false
-end
 
-local function deserializeMessage(msg)
-    local deserialized_msg = nil
-    if not (type(msg) == "string") then
-        print("Bad request.")
-        return 0
+    if e_version == e_program then
+        return 1 -- Recent version
     end
-    deserialized_msg = textutils.unserialize(msg)
-    for key, value in pairs(deserialized_msg) do
-        print(tostring(key)..": "..tostring(value))
-    end
-    return deserialized_msg
+
+    return 2 -- Different version
 end
 
 
@@ -49,48 +59,43 @@ local function sendPrograms(out_channel, msg)
     --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
-        local processedMsg = deserializeMessage(msg)
-        if processedMsg == 0 then
-            return 0
-        else
-            for key, prog in ipairs(processedMsg) do
-                if prog == "availableprograms" then
-                    return_msg = {}
-                    print("Gathering available programs...")
-                    local counter = 1
-                    for prog, url in pairs(programs) do
-                        if prog == "auth" then
-                        else
-                            return_msg[counter] = prog
-                            counter = counter + 1
-                        end
-                    end
-                else
-                    print("Getting specified programs...")
+        for key, prog in ipairs(processedMsg) do
+            if prog == "availableprograms" then
+                return_msg = {}
+                print("Gathering available programs...")
+                local counter = 1
+                for prog, url in pairs(programs) do
                     if prog == "auth" then
                     else
-                        for ava_prog, _ in pairs(programs) do
-                            if prog == ava_prog then
-                                local file = fs.open(ava_prog, "r")
-                                return_msg[ava_prog] = file.readAll()
-                            end
+                        return_msg[counter] = prog
+                        counter = counter + 1
+                    end
+                end
+            else
+                print("Getting specified programs...")
+                if prog == "auth" then
+                else
+                    for ava_prog, _ in pairs(programs) do
+                        if prog == ava_prog then
+                            local file = fs.open(ava_prog, "r")
+                            return_msg[ava_prog] = file.readAll()
                         end
                     end
-                end-- available programs
-            end -- ipairs(processedMsg)
-            print("Content gathered...")
-            return_msg = textutils.serialize(return_msg)
-            modem.transmit(out_channel, 69, return_msg)
-            print("Content transmitten on "..out_channel)
-            return 1
-        end -- not processedMsg
+                end
+            end-- available programs
+        end -- ipairs(processedMsg)
+        print("Content gathered...")
+        return_msg = serial.serializeMessage(return_msg)
+        modem.transmit(out_channel, 69, return_msg)
+        print("Content transmitten on "..out_channel)
+        return 1
     end --msg not nil
 end --function
 
 
 local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
 
-    local processedMsg = deserializeMessage(msg)
+    local processedMsg = serial.deserializeMessage(msg)
     if processedMsg == 0 then
         return 0
     end
@@ -101,10 +106,8 @@ local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
     end
 
     if in_channel == checkVersion_channel then
-        modem.transmit(out_channel, checkVersion_channel, "ok")
-        local content = 
-        local file = mode
-        checkVersion()
+        local version = checkVersion(out_channel, processedMsg)
+        return ""
     end
 end
 
@@ -149,12 +152,14 @@ local function serve(user, pass)
                 print(action)
                 local returnstate = actions[event](param1, param2, param3, param4, param5)
                 if returnstate == nil then
-                    return
+                    break
                 end
                 print("Serving programs...")
             end
         end
     end
+
+    return 0
 end
 
 
