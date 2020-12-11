@@ -16,7 +16,7 @@ function updateLocator()
         reply_channel = math.random(2, 65530)
     until not (reply_channel == 17049)
 
-    local serialized_payload = serial.serialize("locator")
+    local serialized_payload = serial.serializeMessage("locator")
     modem.open(reply_channel)
     modem.transmit(20, reply_channel, serialized_payload)
     local event = nil
