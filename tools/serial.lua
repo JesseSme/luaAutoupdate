@@ -2,7 +2,8 @@ local serial = {}
 
 
 function serial.serializeMessage(msg)
-    return textutils.serialize(msg)
+    local message = textutils.serialize(msg)
+    return message
 end
 
 
