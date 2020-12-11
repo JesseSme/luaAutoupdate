@@ -9,10 +9,6 @@ end
 
 function serial.deserializeMessage(msg)
     local deserialized_msg = nil
-    if type(msg) ~= "string" and type(msg) ~= "table" then
-        print("Bad request.")
-        return 0
-    end
     deserialized_msg = textutils.unserialize(msg)
     return deserialized_msg
 end
