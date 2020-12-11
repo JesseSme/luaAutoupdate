@@ -9,8 +9,7 @@ function updateLocator()
     local locatorFile = fs.open("locator", "r")
     payload[2] = locatorFile.readAll())
 
-    local x, y, z = gps.locate()
-    math.randomseed(x + y + z + os.epoch())
+    math.randomseed(os.epoch("local"))
 
     local reply_channel = 0
     repeat
@@ -33,7 +32,7 @@ function updateLocator()
     end
 
     local deserialized_msg = serial.deseralizeMessage(event[5])
-    if event[5] then
+    if event[5] == true then
         return true
     end
 
