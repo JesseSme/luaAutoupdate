@@ -57,8 +57,7 @@ local function sendPrograms(out_channel, msg)
     --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
-        local processedMsg = serial.deserializeMessage(msg)
-        for key, prog in ipairs(processedMsg) do
+        for key, prog in ipairs(msg) do
             if prog == "availableprograms" then
                 return_msg = {}
                 print("Gathering available programs...")
