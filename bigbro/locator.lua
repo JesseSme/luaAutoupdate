@@ -39,7 +39,8 @@ function updateLocator()
     return false
 end
 
-local modem = peripheral.wrap("modem_1")
+local modem = peripheral.wrap("back")
+--local modem = peripheral.wrap("modem_1")
 modem.open(17049)
 
 if not (arg[2] == 1) then
