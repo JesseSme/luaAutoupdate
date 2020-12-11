@@ -29,7 +29,6 @@ local function checkVersion(out_channel, msg)
     expect(1, out_channel, "number")
     expect(2, msg, "table")
 
-    modem.open(out_channel)
     local program = nil
 
     if program == nil then
@@ -37,17 +36,16 @@ local function checkVersion(out_channel, msg)
         return 0
     end
 
-    modem.transmit(out_channel, checkVersion_channel, "ok")
-
-    repeat
-
-    local e_program = cipherer.cipher("encrypt", program)
-    local file = fs.open(program_name, "r")
+    local e_program = cipherer.cipher("encrypt", msg[2])
+    local file = fs.open(msg[1], "r")
     local content = file.readAll()
     local e_version = cipherer.cipher("encrypt", content)
 
     if e_version == e_program then
+        modem.transmit(out_channel, checkVersion_channel, true)
         return 1 -- Recent version
+    else
+        modem.transmit(out_channel, checkVersion_channel, false)
     end
 
     return 2 -- Different version
