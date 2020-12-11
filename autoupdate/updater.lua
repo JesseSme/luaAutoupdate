@@ -31,12 +31,18 @@ local function checkVersion(out_channel, msg)
 
     local program = nil
 
+    for key, value in pairs(programs) do
+        if key == msg[1] then
+            program = msg[1]
+        end
+    end
+
     if program == nil then
         print("Version check failed. Program not assigned.")
         return 0
     end
 
-    local e_program = cipherer.cipher("encrypt", msg[2])
+    local e_program = cipherer.cipher("encrypt", program)
     local file = fs.open(msg[1], "r")
     local content = file.readAll()
     local e_version = cipherer.cipher("encrypt", content)
