@@ -1,12 +1,12 @@
 local serial = {}
 
 
-function serializeMessage(msg)
+function serial.serializeMessage(msg)
     return textutils.serialize(msg)
 end
 
 
-function deserializeMessage(msg)
+function serial.deserializeMessage(msg)
     local deserialized_msg = nil
     if not (type(msg) == "string") then
         print("Bad request.")
