@@ -18,7 +18,7 @@ function updateLocator()
 
     local serialized_payload = serial.serialize("locator")
     modem.open(reply_channel)
-    modem.transmit(reply_channel, 1, serialized_payload)
+    modem.transmit(20, reply_channel, serialized_payload)
     local event = nil
     local counter = 30
     repeat
@@ -40,4 +40,4 @@ function updateLocator()
 end
 
 local modem = peripheral.wrap("modem_1")
-
+modem.open(17049)
