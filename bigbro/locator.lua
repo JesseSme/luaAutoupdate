@@ -35,7 +35,6 @@ function updateLocator()
     if counter == 0 then
         return false
     end
-    local deserialized_msg = serial.deserializeMessage(event[5])
     if event[5] == true then
         return true
     end
