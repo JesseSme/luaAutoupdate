@@ -153,7 +153,6 @@ local function serve(user, pass)
         local event, param1, param2, param3, param4, param5 = os.pullEvent()
         for action, _ in pairs(actions) do
             if action == event then
-                print(action)
                 local returnstate = actions[event](param1, param2, param3, param4, param5)
                 if returnstate == nil then
                     break
