@@ -19,6 +19,7 @@ function updateLocator()
     until not (reply_channel == 17049)
 
     local serialized_payload = serial.serializeMessage(payload)
+    print(serialized_payload)
     modem.open(reply_channel)
     modem.transmit(20, reply_channel, serialized_payload)
     local event = nil
