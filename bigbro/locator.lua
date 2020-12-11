@@ -7,7 +7,7 @@ function updateLocator()
     payload[1] = "locator"
 
     local locatorFile = fs.open("locator", "r")
-    payload[2] = locatorFile.readAll())
+    payload[2] = locatorFile.readAll()
 
     math.randomseed(os.epoch("local"))
 
@@ -41,3 +41,7 @@ end
 
 local modem = peripheral.wrap("modem_1")
 modem.open(17049)
+
+if not (arg[2] == 1) then
+    updateLocator()
+end
