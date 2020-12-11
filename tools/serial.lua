@@ -9,7 +9,7 @@ end
 
 function serial.deserializeMessage(msg)
     local deserialized_msg = nil
-    if type(msg) ~= "string" or type(msg) ~= "table" then
+    if type(msg) ~= "string" and type(msg) ~= "table" then
         print("Bad request.")
         return 0
     end
