@@ -16,6 +16,12 @@ local programs = git.programLinks
 local loggedIn = true
 
 --Modem variables.
+local sendprograms_protocol = "sendprogramComs"
+local sendprograms_host     = "sendprogramServer"
+
+local checkversion_protocol = "checkversionComs"
+local checkversion_host     = "checkversionServer"
+
 local sendPrograms_channel = 69
 local checkVersion_channel = 20
 local modem_side = "top"
@@ -97,19 +103,19 @@ local function sendPrograms(out_channel, msg)
 end --function
 
 
-local function processIncomingMsg(side, in_channel, out_channel, msg, dist)
+local function processIncomingMsg(senderid, message, protocol)
 
     local processedMsg = serial.deserializeMessage(msg)
     if processedMsg == 0 then
         return 0
     end
 
-    if in_channel == sendPrograms_channel then
-        sendPrograms(out_channel, processedMsg)
+    if protocol == sendprograms_protocol then
+        sendPrograms(senderid, processedMsg)
         return "sent"
     end
 
-    if in_channel == checkVersion_channel then
+    if protocol == checkversion_protocol then
         local version = checkVersion(out_channel, processedMsg)
         return ""
     end
@@ -140,7 +146,8 @@ local function serve(user, pass)
         end
     end
     os.startTimer(360)
-    modem = peripheral.wrap(modem_side)
+    modem = rednet.open(modem_side)
+    --
     modem.open(sendPrograms_channel)
     modem.open(checkVersion_channel)
     monitor = peripheral.wrap("right")
