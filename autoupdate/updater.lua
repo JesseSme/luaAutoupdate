@@ -22,8 +22,6 @@ local sendprograms_host     = "sendprogramServer"
 local checkversion_protocol = "checkversionComs"
 local checkversion_host     = "checkversionServer"
 
-local sendPrograms_channel = 69
-local checkVersion_channel = 20
 local modem_side = "top"
 
 modem = nil
@@ -31,15 +29,15 @@ monitor = nil
 oldTerm = nil
 
 
-local function checkVersion(out_channel, msg)
-    expect(1, out_channel, "number")
-    expect(2, msg, "table")
+local function checkVersion(senderid, message)
+    expect(1, senderid, "number")
+    expect(2, message, "table")
 
     local program = nil
 
     for key, value in pairs(programs) do
-        if key == msg[1] then
-            program = msg[1]
+        if key == message[1] then
+            program = message[1]
         end
     end
 
@@ -49,24 +47,23 @@ local function checkVersion(out_channel, msg)
     end
 
     local e_program = cipherer.cipher("encrypt", program)
-    local file = fs.open(msg[1], "r")
+    local file = fs.open(message[1], "r")
     local content = file.readAll()
     local e_version = cipherer.cipher("encrypt", content)
 
     if e_version == e_program then
-        modem.transmit(out_channel, checkVersion_channel, true)
+        rednet.send(senderid, true)
         return 1 -- Recent version
     else
-        modem.transmit(out_channel, checkVersion_channel, false)
+        rednet.send(senderid, false)
     end
 
     return 2 -- Different version
 end
 
 
-local function sendPrograms(out_channel, msg)
+local function sendPrograms(senderid, msg)
 
-    --Always serialize msg before sending
     if not (msg == nil) then
         local return_msg = {}
         for key, prog in ipairs(msg) do
@@ -92,12 +89,11 @@ local function sendPrograms(out_channel, msg)
                         end
                     end
                 end
-            end-- available programs
+            end -- available programs
         end -- ipairs(processedMsg)
         print("Content gathered...")
-        return_msg = serial.serializeMessage(return_msg)
-        modem.transmit(out_channel, 69, return_msg)
-        print("Content transmitten on "..out_channel)
+        rednet.send(senderid, return_msg)
+        print("Content transmitted to "..senderid)
         return 1
     end --msg not nil
 end --function
@@ -105,18 +101,13 @@ end --function
 
 local function processIncomingMsg(senderid, message, protocol)
 
-    local processedMsg = serial.deserializeMessage(msg)
-    if processedMsg == 0 then
-        return 0
-    end
-
     if protocol == sendprograms_protocol then
-        sendPrograms(senderid, processedMsg)
+        sendPrograms(senderid, message)
         return "sent"
     end
 
     if protocol == checkversion_protocol then
-        local version = checkVersion(out_channel, processedMsg)
+        local version = checkVersion(senderid, message)
         return ""
     end
 end
@@ -126,7 +117,7 @@ end
 --Should probably make them their own file.
 actions = {
     ["terminate"]= function() return nil end,
-    ["modem_message"]= processIncomingMsg,
+    ["rednet_message"]= processIncomingMsg,
     ["timer"]= function()
                 git.update()
     end
@@ -146,10 +137,9 @@ local function serve(user, pass)
         end
     end
     os.startTimer(360)
-    modem = rednet.open(modem_side)
     --
-    modem.open(sendPrograms_channel)
-    modem.open(checkVersion_channel)
+    rednet.host(sendprograms_protocol, sendprograms_host)
+    rednet.host(checkversion_protocol, checkversion_host)
     monitor = peripheral.wrap("right")
     monitor.setTextScale(0.5)
     oldTerm = term.redirect(monitor)
@@ -176,6 +166,8 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 print("Initializing...")
+modem = peripheral.wrap(modem_side)
+rednet.open(modem)
 serve(arg[1], arg[2])
 term.clear()
 term.redirect(oldTerm)
