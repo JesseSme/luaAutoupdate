@@ -65,6 +65,7 @@ end
 local function sendPrograms(senderid, msg)
 
     if not (msg == nil) then
+        print(msg)
         local return_msg = {}
         for key, prog in ipairs(msg) do
             if prog == "availableprograms" then
@@ -100,6 +101,9 @@ end --function
 
 
 local function processIncomingMsg(senderid, message, protocol)
+    print(senderid)
+    print(message)
+    print(protocol)
 
     if protocol == sendprograms_protocol then
         sendPrograms(senderid, message)
