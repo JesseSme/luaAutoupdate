@@ -1,6 +1,9 @@
-local serial = require("serial")
+local locator_protocol = "locatorCom"
+local locator_host     = "locatorServer"
 
 modem = nil
+
+local id = "iPad_Ender"
 
 -- REDO
 function updateLocator()
@@ -13,21 +16,12 @@ function updateLocator()
 
     math.randomseed(os.epoch("local"))
 
-    local reply_channel = 0
-    repeat
-        reply_channel = math.random(2, 65530)
-    until not (reply_channel == 17049)
-
-    local serialized_payload = serial.serializeMessage(payload)
-    if type(serialized_payload) ~= "string" then
-        print(type(serialized_payload))
-    end
-    modem.open(reply_channel)
-    modem.transmit(20, reply_channel, serialized_payload)
+    modem.host(locator_protocol, locator_host)
+    modem.send("sendprogramComs", payload)
     local event = nil
     local counter = 5
     repeat
-        event = {os.pullEvent("modem_message")}
+        event = {os.pullEvent("rednet_message")}
         os.sleep(1)
         counter = counter - 1
     until counter == 0 or event ~= nil
@@ -42,11 +36,14 @@ function updateLocator()
     return false
 end
 
-
-modem = peripheral.wrap("back")
---local modem = peripheral.wrap("modem_1")
-modem.open(17049)
+rednet.open("back")
 
 if not (arg[2] == 1) then
-    updateLocator()
+    if not updateLocator() then
+        shell.run("test", "locator")
+        shell.run("locator", "1")
+    end
 end
+
+
+--local modem = peripheral.wrap("modem_1")
