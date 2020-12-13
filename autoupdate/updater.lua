@@ -105,6 +105,10 @@ local function processIncomingMsg(senderid, message, protocol)
     print(message)
     print(protocol)
 
+    if protocol == "dns" then
+        return "Checked"
+    end
+
     if protocol == sendprograms_protocol then
         sendPrograms(senderid, message)
         return "sent"
@@ -114,6 +118,7 @@ local function processIncomingMsg(senderid, message, protocol)
         local version = checkVersion(senderid, message)
         return ""
     end
+
 end
 
 
