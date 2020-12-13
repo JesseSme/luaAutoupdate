@@ -15,7 +15,7 @@ function updateLocator()
     --math.randomseed(os.epoch("local"))
 
     rednet.host(locator_protocol, locator_host)
-    rednet.send(rednet.lookup("sendprogramComs"), payload)
+    rednet.send(rednet.lookup("sendprogramServer"), payload, "sendprogramComs")
 
     local id, message = rednet.receive(15)
 
