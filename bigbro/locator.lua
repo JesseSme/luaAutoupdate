@@ -3,8 +3,6 @@ local locator_host     = "locatorServer"
 
 modem = nil
 
-local id = "iPad_Ender"
-
 -- REDO
 function updateLocator()
 
@@ -14,22 +12,14 @@ function updateLocator()
     local locatorFile = fs.open("locator", "r")
     payload[2] = locatorFile.readAll()
 
-    math.randomseed(os.epoch("local"))
+    --math.randomseed(os.epoch("local"))
 
-    modem.host(locator_protocol, locator_host)
-    modem.send("sendprogramComs", payload)
-    local event = nil
-    local counter = 5
-    repeat
-        event = {os.pullEvent("rednet_message")}
-        os.sleep(1)
-        counter = counter - 1
-    until counter == 0 or event ~= nil
+    rednet.host(locator_protocol, locator_host)
+    rednet.send(rednet.lookup("sendprogramComs"), payload)
 
-    if counter == 0 then
-        return false
-    end
-    if event[5] == true then
+    local id, message = rednet.receive(15)
+
+    if message then
         return true
     end
 
