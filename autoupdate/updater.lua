@@ -93,7 +93,7 @@ local function sendPrograms(senderid, msg)
             end -- available programs
         end -- ipairs(processedMsg)
         print("Content gathered...")
-        rednet.send(senderid, return_msg)
+        rednet.send(senderid, return_msg, "LocatorCom")
         print("Content transmitted to "..senderid)
         return 1
     end --msg not nil
