@@ -148,7 +148,6 @@ local function serve(user, pass)
             return 0
         end
     end
-    os.startTimer(360)
     --
     rednet.host(sendprograms_protocol, sendprograms_host)
     rednet.host(checkversion_protocol, checkversion_host)
