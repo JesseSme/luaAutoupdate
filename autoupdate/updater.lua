@@ -106,7 +106,9 @@ local function processIncomingMsg(senderid, message, protocol)
     print(protocol)
 
     if protocol == "dns" then
-        rednet.send(senderid, os.getComputerID())
+        if rednet.send(senderid, os.getComputerID()) then
+            print("Sent data.")
+        end
         return "Checked"
     end
 
