@@ -24,7 +24,6 @@ local checkversion_host     = "checkversionServer"
 
 local modem_side = "top"
 
-modem = nil
 monitor = nil
 oldTerm = nil
 
@@ -46,6 +45,7 @@ local function checkVersion(senderid, message)
         return 0
     end
 
+    --//TODO: Has to work for multiple programs at the same time.
     local e_program = cipherer.cipher("encrypt", program)
     local file = fs.open(message[1], "r")
     local content = file.readAll()
@@ -61,7 +61,7 @@ local function checkVersion(senderid, message)
     return 2 -- Different version
 end
 
-
+--Currently working as intended 14.12.
 local function sendPrograms(senderid, msg)
 
     if not (msg == nil) then

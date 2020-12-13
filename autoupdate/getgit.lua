@@ -25,6 +25,8 @@ function git.update()
         file.close()
         print(key.." Done!")
     end
+
+    --//FIXME: This leaves an instance running, when it runs the updater.
     if shell.getRunningProgram() == "updater" then
         for i=5, 1, -1 do
         print("Updater will rerun in... "..i)

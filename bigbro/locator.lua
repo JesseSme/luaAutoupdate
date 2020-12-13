@@ -3,7 +3,6 @@ local locator_host     = "locatorServer"
 
 modem = nil
 
--- REDO
 function updateLocator()
 
     local payload = {}
@@ -29,6 +28,7 @@ end
 
 rednet.open("back")
 
+--//TODO: Could also cause stack overflow.
 if not (arg[2] == 1) then
     if not updateLocator() then
         shell.run("test", "locator")

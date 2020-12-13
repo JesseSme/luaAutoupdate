@@ -1,6 +1,6 @@
 local cipherer = {}
 
-
+--//TODO: Could this be made always available?
 function cipherer.cipher(mode, text)
     if mode == "encrypt" then
         return peripheral.call("cipher_0", mode, text)
