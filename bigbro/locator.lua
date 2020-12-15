@@ -1,8 +1,6 @@
 local locator_protocol = "locatorCom"
 local locator_host     = "locatorServer"
 
-modem = nil
-
 function updateLocator()
 
     local payload = {}
@@ -26,15 +24,15 @@ function updateLocator()
     return false
 end
 
-rednet.open("back")
-
 --//TODO: Could also cause stack overflow.
-if not (arg[2] == 1) then
+if arg[1] == 1 then
     if not updateLocator() then
         shell.run("test", "locator")
         shell.run("locator", "1")
     end
 end
+
+peripheral.find("modem", rednet.open)
 
 
 --local modem = peripheral.wrap("modem_1")

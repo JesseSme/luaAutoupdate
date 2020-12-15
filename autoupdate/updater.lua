@@ -16,11 +16,11 @@ local programs = git.programLinks
 local loggedIn = true
 
 --Modem variables.
-local sendprograms_protocol = "sendprogramComs"
-local sendprograms_host     = "sendprogramServer"
+local sendprograms_protocol = "sendprogramprotocol"
+local sendprograms_host     = "sendprogramhost_1"
 
-local checkversion_protocol = "checkversionComs"
-local checkversion_host     = "checkversionServer"
+local checkversion_protocol = "checkversionprotocol"
+local checkversion_host     = "checkversionhost_1"
 
 local modem_side = "top"
 
@@ -46,6 +46,7 @@ local function checkVersion(senderid, message)
     end
 
     --//TODO: Has to work for multiple programs at the same time.
+    --//FIXME: Has been changed to a server. Needs REDNET.
     local e_program = cipherer.cipher("encrypt", program)
     local file = fs.open(message[1], "r")
     local content = file.readAll()
