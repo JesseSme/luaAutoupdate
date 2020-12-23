@@ -1,7 +1,9 @@
 local locator_protocol = "locatorprotocol"
 local locator_host     = "locatorhost_1"
 
-function updateLocator()
+--Checks the locator version and determines
+--if the program needs to reboot.
+function checkLocatorVersion()
 
     local payload = {}
     payload[1] = "locator"
@@ -24,15 +26,30 @@ function updateLocator()
     return false
 end
 
---#TODO: Could also cause stack overflow.
+function listen()
+    -- listens for rednet messages from spyturtles
+
+    while true do
+        local rn = {rednet.receive(1)}
+        if not (rn == nil) then
+            local id, message = pairs(rn)
+            -- #TODO: Add message parsing and
+            -- database addition.
+        end
+    end
+end
+
+
+peripheral.find("modem", rednet.open)
+
+
 if arg[1] == 1 then
-    if not updateLocator() then
+    if not checkLocatorVersion() then
+        rednet.unhost(locator_protocol)
+        peripheral.find("modem", rednet.close)
         shell.run("get", "locator")
         os.reboot()
     end
 end
 
-peripheral.find("modem", rednet.open)
-
-
---local modem = peripheral.wrap("modem_1")
+listen()
