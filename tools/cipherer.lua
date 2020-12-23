@@ -1,9 +1,9 @@
 local cipher_protocol = "cipherprotocol"
 local cipher_hostname = "cipherhost_1"
 
---//TODO: Could this be made always available?
 local function cipher(mode, text)
     if mode == "encrypt" then
+        --//TODO: 
         return peripheral.call("cipher_0", mode, text)
     elseif mode == "decrypt" then
         return peripheral.call("cipher_0", mode, text)
@@ -13,7 +13,9 @@ local function cipher(mode, text)
     return nil
 end
 
-
+local function prepMessage(senderid, message)
+    
+end
 
 local function cipherserver()
     rednet.open("top")

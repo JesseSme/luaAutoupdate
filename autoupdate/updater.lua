@@ -45,8 +45,8 @@ local function checkVersion(senderid, message)
         return 0
     end
 
-    --//TODO: Has to work for multiple programs at the same time.
-    --//FIXME: Has been changed to a server. Needs REDNET.
+    --#TODO: Has to work for multiple programs at the same time.
+    --#FIXME: Has been changed to a server. Needs REDNET.
     local e_program = cipherer.cipher("encrypt", program)
     local file = fs.open(message[1], "r")
     local content = file.readAll()

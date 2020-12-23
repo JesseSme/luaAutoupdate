@@ -1,5 +1,5 @@
-local locator_protocol = "locatorCom"
-local locator_host     = "locatorServer"
+local locator_protocol = "locatorprotocol"
+local locator_host     = "locatorhost_1"
 
 function updateLocator()
 
@@ -12,8 +12,8 @@ function updateLocator()
     --math.randomseed(os.epoch("local"))
 
     rednet.host(locator_protocol, locator_host)
-    local lookup_id, message = rednet.receive(10)
-    rednet.send(lookup_id, payload, "sendprogramComs")
+    local lookup_id = rednet.lookup("sendprogramprotocol")
+    rednet.send(lookup_id, payload, "sendprogramprotocol")
 
     local id, message = rednet.receive(15)
 
@@ -24,11 +24,11 @@ function updateLocator()
     return false
 end
 
---//TODO: Could also cause stack overflow.
+--#TODO: Could also cause stack overflow.
 if arg[1] == 1 then
     if not updateLocator() then
-        shell.run("test", "locator")
-        shell.run("locator", "1")
+        shell.run("get", "locator")
+        os.reboot()
     end
 end
 
