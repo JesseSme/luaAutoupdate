@@ -36,11 +36,9 @@ function listen()
     rednet.host(spyturtle_protocol, spyturtle_host)
 
     while true do
-        local rn = {rednet.receive(1)}
-        if not (rn == nil) then
-            local id, message = pairs(rn)
+        local id, message = rednet.receive(1)
+        if not (id == nil) then
             -- #TODO: Add message parsing and
-            print("Printing the data:")
             for field, fieldval in pairs(message) do
                 print(field)
                 print(fieldval)

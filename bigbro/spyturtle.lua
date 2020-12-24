@@ -4,6 +4,10 @@ local spyturtle_host     = "spyturtle_"
 local turtle_location = nil
 local radar = nil
 
+-------------------------------------
+-- Needs to use independent radars --
+-------------------------------------
+
 function checkSpyVersion()
 
     local payload = {}
@@ -35,8 +39,8 @@ function spy()
 
     while true do
         -- entities is two dimensional
-        local lookup_id = rednet.lookup("locatorprotocol")
-        local entities = radar.getPlayers()
+        local lookup_id = rednet.lookup("spyturtleprotocol")
+        local entities = {radar.getPlayers()}
         -- First key is probably amount of players
 
         if not (entities == nil) then
@@ -45,7 +49,7 @@ function spy()
                 for field, fval in pairs(value) do
                     data[field] = fval
                 end
-                rednet.send(lookup_id, data, "locatorprotocol")
+                rednet.send(lookup_id, data, "spyturtleprotocol")
             end
         end
         os.sleep(2)
