@@ -51,7 +51,6 @@ end
 
 peripheral.find("modem", rednet.open)
 
-
 if not checkLocatorVersion() then
     rednet.unhost(locator_protocol)
     peripheral.find("modem", rednet.close)
