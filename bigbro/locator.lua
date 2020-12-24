@@ -1,6 +1,9 @@
 local locator_protocol = "locatorprotocol"
 local locator_host     = "locatorhost_1"
 
+local spyturtle_protocol = "spyturtleprotocol"
+local spyturtle_host     = "spyturtleleader"
+
 --Checks the locator version and determines
 --if the program needs to reboot.
 function checkLocatorVersion()
