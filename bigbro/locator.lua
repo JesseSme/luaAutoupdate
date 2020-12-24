@@ -40,6 +40,7 @@ function listen()
         if not (rn == nil) then
             local id, message = pairs(rn)
             -- #TODO: Add message parsing and
+            print("Printing the data:")
             for field, fieldval in pairs(message) do
                 print(field)
                 print(fieldval)

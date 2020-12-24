@@ -14,7 +14,7 @@ function checkSpyVersion()
 
     --math.randomseed(os.epoch("local"))
 
-    rednet.host(locator_protocol, locator_host)
+    rednet.host(spyturtle_protocol, spyturtle_host)
     local lookup_id = rednet.lookup("sendprogramprotocol")
     rednet.send(lookup_id, payload, "sendprogramprotocol")
 
@@ -53,7 +53,7 @@ function spy()
 end
 
 peripheral.find("modem", rednet.open)
-if not checkLocatorVersion() then
+if not checkSpyVersion() then
     rednet.unhost(locator_protocol)
     peripheral.find("modem", rednet.close)
     shell.run("get", "spyturtle")
