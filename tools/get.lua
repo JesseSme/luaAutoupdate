@@ -16,7 +16,7 @@ rednet.send(servid, tbl, "sendprogramprotocol")
 
 id, message = rednet.receive(5)
 
-for name, code in pairs(message) do 
+for name, code in pairs(message) do
     local file = fs.open(name, "w")
     file.write(code)
     file.close()
