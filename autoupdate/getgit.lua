@@ -14,6 +14,7 @@ git.programLinks = {
     ["spyturtle"]=    url.."bigbro/spyturtle.lua",
     ["cipherer"]=     url.."tools/cipherer.lua",
     ["serial"]=       url.."tools/serial.lua"
+    ["get"]=          url.."tools/get.lua"
 }
 
 function git.update()

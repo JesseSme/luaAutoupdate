@@ -4,6 +4,7 @@ local locator_host     = "locatorhost_1"
 local spyturtle_protocol = "spyturtleprotocol"
 local spyturtle_host     = "spyturtleleader"
 
+
 --Checks the locator version and determines
 --if the program needs to reboot.
 function checkLocatorVersion()
@@ -29,15 +30,20 @@ function checkLocatorVersion()
     return false
 end
 
+
 function listen()
     -- listens for rednet messages from spyturtles
+    rednet.host(spyturtle_protocol, spyturtle_host)
 
     while true do
         local rn = {rednet.receive(1)}
         if not (rn == nil) then
             local id, message = pairs(rn)
             -- #TODO: Add message parsing and
-            -- database addition.
+            for field, fieldval in pairs(message) do
+                print(field)
+                print(fieldval)
+            end
         end
     end
 end
@@ -46,13 +52,12 @@ end
 peripheral.find("modem", rednet.open)
 
 
-if arg[1] == 1 then
-    if not checkLocatorVersion() then
-        rednet.unhost(locator_protocol)
-        peripheral.find("modem", rednet.close)
-        shell.run("get", "locator")
-        os.reboot()
-    end
+if not checkLocatorVersion() then
+    rednet.unhost(locator_protocol)
+    peripheral.find("modem", rednet.close)
+    shell.run("get", "locator")
+    os.reboot()
 end
+
 
 listen()

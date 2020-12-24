@@ -2,6 +2,7 @@ local spyturtle_protocol = "spyturtleprotocol"
 local spyturtle_host     = "spyturtle_"
 
 local turtle_location = nil
+local radar = nil
 
 function checkSpyVersion()
 
@@ -29,13 +30,33 @@ end
 
 function spy()
 
+    turtle_location = gps.locate()
+    radar = peripheral.find("radar")
+
+    while true do
+        -- entities is two dimensional
+        local lookup_id = rednet.lookup("locatorprotocol")
+        local entities = radar.getPlayers()
+        -- First key is probably amount of players
+
+        if not (entities == nil) then
+            for key, value in pairs(entities) do
+                local data = {}
+                for field, fval in pairs(value) do
+                    data[field] = fval
+                end
+                rednet.send(lookup_id, data, "locatorprotocol")
+            end
+        end
+        os.sleep(2)
+    end
 end
 
-
+peripheral.find("modem", rednet.open)
 if not checkLocatorVersion() then
     rednet.unhost(locator_protocol)
     peripheral.find("modem", rednet.close)
-    shell.run("get", "locator")
+    shell.run("get", "spyturtle")
     os.reboot()
 end
 
