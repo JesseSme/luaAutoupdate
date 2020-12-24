@@ -13,7 +13,7 @@ git.programLinks = {
     ["locator"]=      url.."bigbro/locator.lua",
     ["spyturtle"]=    url.."bigbro/spyturtle.lua",
     ["cipherer"]=     url.."tools/cipherer.lua",
-    ["serial"]=       url.."tools/serial.lua"
+    ["serial"]=       url.."tools/serial.lua",
     ["get"]=          url.."tools/get.lua"
 }
 
