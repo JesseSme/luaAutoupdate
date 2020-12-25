@@ -43,4 +43,3 @@ if shell.getRunningProgram() == "cipherer" then
     end
 end
 
-return
