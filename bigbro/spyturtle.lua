@@ -48,6 +48,7 @@ function spy()
                 local data = {}
                 for field, fval in pairs(value) do
                     data[field] = fval
+                    print(field..": "..fval)
                 end
                 rednet.send(lookup_id, data, "spyturtleprotocol")
             end
