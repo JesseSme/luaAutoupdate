@@ -4,6 +4,7 @@ local locator_host     = "locatorhost_1"
 local spyturtle_protocol = "spyturtleprotocol"
 local spyturtle_host     = "spyturtleleader"
 
+local turtle_locations = {}
 
 --Checks the locator version and determines
 --if the program needs to reboot.
@@ -12,7 +13,7 @@ function checkLocatorVersion()
     local payload = {}
     payload[1] = "locator"
 
-    local locatorFile = fs.open("locator", "r")
+    local locatorFile = fs.open("locator.lua", "r")
     payload[2] = locatorFile.readAll()
 
     --math.randomseed(os.epoch("local"))
@@ -30,18 +31,22 @@ function checkLocatorVersion()
     return false
 end
 
+function triangulate()
 
 function listen()
     -- listens for rednet messages from spyturtles
     rednet.host(spyturtle_protocol, spyturtle_host)
 
     while true do
-        local id, message = rednet.receive(1)
+        local id, message = rednet.receive("spyturtleprotocol")
+        print(message)
         if not (id == nil) then
             -- #TODO: Add message parsing and
             for field, fieldval in pairs(message) do
-                print(field)
-                print(fieldval)
+                if field == "turtlelocation" then
+                    table.insert(turtle_locations, fieldval)
+                    break
+                end
             end
         end
     end
@@ -57,5 +62,5 @@ if not checkLocatorVersion() then
     os.reboot()
 end
 
-
+print("Starting to listen...")
 listen()

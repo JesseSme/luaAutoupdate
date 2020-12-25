@@ -1,12 +1,18 @@
 local spyturtle_protocol = "spyturtleprotocol"
 local spyturtle_host     = "spyturtle_"
 
-local turtle_location = nil
+local turtle_loc = {turtle_location={}}
 local radar = nil
 
 -------------------------------------
 -- Needs to use independent radars --
 -------------------------------------
+
+-------------------------------------------------------------
+-- This peace of shit works, but the radars in-game are
+-- limited to a radius of 8 blocks.
+-- Sooooooo. Hours well wasted. Wooooo...
+-------------------------------------------------------------
 
 function checkSpyVersion()
 
@@ -34,15 +40,15 @@ end
 
 function spy()
 
-    turtle_location = gps.locate()
+    turtle_loc["turtle_location"] = {gps.locate()}
     radar = peripheral.find("radar")
+    rednet.broadcast(turtle_loc, spyturtle_protocol)
 
     while true do
         -- entities is two dimensional
         local lookup_id = rednet.lookup("spyturtleprotocol")
-        local entities = {radar.getPlayers()}
+        local entities = radar.getPlayers()
         -- First key is probably amount of players
-
         if not (entities == nil) then
             for key, value in pairs(entities) do
                 local data = {}
@@ -50,19 +56,19 @@ function spy()
                     data[field] = fval
                     print(field..": "..fval)
                 end
-                rednet.send(lookup_id, data, "spyturtleprotocol")
+                rednet.broadcast(data, "spyturtleprotocol")
             end
         end
-        os.sleep(2)
+        os.sleep(.5)
     end
 end
 
 peripheral.find("modem", rednet.open)
-if not checkSpyVersion() then
-    rednet.unhost(locator_protocol)
-    peripheral.find("modem", rednet.close)
-    shell.run("get", "spyturtle")
-    os.reboot()
-end
+--if not checkSpyVersion() then
+--    rednet.unhost(locator_protocol)
+--    peripheral.find("modem", rednet.close)
+--    shell.run("get", "spyturtle")
+--    os.reboot()
+--end
 
 spy()
