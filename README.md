@@ -1,6 +1,6 @@
 # luaAutoupdate
 
-This is a terribly overblown project that my small brain has decided to work on. 
+This is a terribly overblown project.
 
 
 
