@@ -9,7 +9,7 @@ local radar = nil
 -------------------------------------
 
 -------------------------------------------------------------
--- This peace of shit works, but the radars in-game are
+-- This piece of shit works, but the radars in-game are
 -- limited to a radius of 8 blocks.
 -- Sooooooo. Hours well wasted. Wooooo...
 -------------------------------------------------------------

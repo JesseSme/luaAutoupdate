@@ -7,11 +7,11 @@ local self = {}
 local expect = require("cc.expect")
 local expect = expect.expect
 
-local git = require("update")
+local getgit = require("getgit")
 local cipherer = require("cipherer")
 local auth = require("auth")
 local serial = require("serial")
-local programs = git.programLinks
+local programs = getgit.programLinks
 
 local loggedIn = true
 

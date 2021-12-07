@@ -4,7 +4,7 @@
 
 local inventory = require("inventory")
 local tunnel    = require("tunnel")
-local update    = require("update")
+local getgit    = require("getgit")
 
 error = {}
 
@@ -20,13 +20,16 @@ local function quit()
     end
 end
 
-if not update.update() then
+--Updates programs.
+if not getgit.update() then
     for key, val in error do
         print(key, ": ", val)
     end
     do return end
 end
 
+
+--Starts tunnel mining
 if tunnel.tunnel(arg[1], arg[2], arg[3]) then
     quit()
 else
