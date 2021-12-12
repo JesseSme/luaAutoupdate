@@ -1,6 +1,8 @@
+local versionCheck = {}
+
 local expect = expect.expect
 
-function checkScriptVersion(updatable)
+function versionCheck.checkScriptVersion(updatable)
     expect(1, updatable, "string")
     payload[1] = updatable
 
@@ -9,7 +11,7 @@ function checkScriptVersion(updatable)
 
     --math.randomseed(os.epoch("local"))
 
-    rednet.host(spyturtle_protocol, spyturtle_host)
+    rednet.host(updatable.."_protocol", updatable.."_host")
     local lookup_id = rednet.lookup("sendprogramprotocol")
     rednet.send(lookup_id, payload, "sendprogramprotocol")
 
@@ -21,3 +23,5 @@ function checkScriptVersion(updatable)
 
     return false
 end
+
+return versionCheck
