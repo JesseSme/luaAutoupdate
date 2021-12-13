@@ -178,7 +178,7 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 print("Initializing...")
-rednet.open(modem_side)
+rednet.open(peripheral.find("modem"))
 serve(arg[1], arg[2])
 term.clear()
 term.redirect(oldTerm)

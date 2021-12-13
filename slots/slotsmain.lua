@@ -14,6 +14,7 @@ function start()
     local monitor = peripheral.find("monitor")
     term.redirect(monitor)
     paintutils.drawFilledBox(0,0,29,19,colors.magenta)
+    --
 end
 
 start()
